@@ -32,3 +32,9 @@ def convert_number_to_array(number):
         '2': [0, 1, 0],
         '3': [0, 0, 1]
     }.get(str(number))
+
+def matrix_equals(matrix_1, matrix_2):
+    for index in range(0, matrix_1.shape[0]):
+        if(matrix_1[index] != matrix_2[index]):
+            return False
+    return True
