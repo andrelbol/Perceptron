@@ -19,7 +19,8 @@ class Perceptron:
         max_error = 1
         input_row_quantity = self.input_train.shape[0]
         input_column_quantity = self.input_train.shape[1]
-        response_column_quantity = self.desired_response_train.shape[1]
+        # response_column_quantity = self.desired_response_train.shape[1]
+        response_column_quantity = 1
         weight_matrix = np.random.rand(response_column_quantity, input_column_quantity)
         bias = np.random.rand(response_column_quantity)
         while( t < self.max_iterations and max_error > 0):
@@ -28,7 +29,8 @@ class Perceptron:
                 step_input = np.matmul(weight_matrix, self.input_train[index].transpose()) + bias
                 response_array = utils.apply_step(step_input)
                 error_array = self.desired_response_train[index] - response_array
-                weight_matrix += self.alpha*np.matmul(error_array.transpose().reshape(3, 1), self.input_train[index].reshape(1, 13))
+                # weight_matrix += self.alpha*np.matmul(error_array.transpose().reshape(3, 1), self.input_train[index].reshape(1, 13))
+                weight_matrix += self.alpha*np.matmul(error_array.transpose(), self.input_train[index].reshape(1, 9))
                 bias += self.alpha*error_array
                 max_error += np.sum([value*value for value in error_array])
 
@@ -44,7 +46,8 @@ class Perceptron:
         for index in range(0, input_row_quantity):
             step_input = np.matmul(weight, self.input_test[index].transpose()) + bias
             predicted_response = utils.apply_step(step_input)
-            if(utils.matrix_equals(predicted_response, self.desired_response_test[index])):
+            # if(utils.matrix_equals(predicted_response, self.desired_response_test[index])):
+            if(predicted_response == self.desired_response_test[index]):
                 right_answers += 1
 
         return right_answers/input_row_quantity
