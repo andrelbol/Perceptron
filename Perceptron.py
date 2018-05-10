@@ -39,12 +39,14 @@ class Perceptron:
     def test(self, weight, bias):
         input_row_quantity = self.input_test.shape[0]
         right_answers = 0
+        success = []
+        fail = []
         for index in range(0, input_row_quantity):
-            predicted_response = utils.apply_step(np.matmul(weight, self.input_test[index].reshape(13, 1).flatten()) + bias)
-            predicted_response = predicted_response.flatten()
-            if(utils.matrix_equals(predicted_response, self.desired_response_train[index])):
-                print("YES")
+            step_input = np.matmul(weight, self.input_test[index].transpose()) + bias
+            predicted_response = utils.apply_step(step_input)
+            if(utils.matrix_equals(predicted_response, self.desired_response_test[index])):
                 right_answers += 1
+
         return right_answers/input_row_quantity
 
     def __str__(self):
